@@ -101,6 +101,11 @@ userSchema.statics.findByPhoneNumber= (phoneNumber,password)=>{
       next();
     }
   })
+  
+
+
+
+
  
   
   var User = mongoose.model("user", userSchema);

@@ -8,7 +8,7 @@ const nexmo = new Nexmo({
   apiKey: NEXMO_API_KEY,
   apiSecret: NEXMO_API_SECRET
 });
-
+const bcrypt= require("bcryptjs")
 
 module.exports={
 
@@ -223,7 +223,11 @@ module.exports={
             if(!user){
                 return res.status(401).send("Incorrect credentials");
             }
+             //newPassword1= bcrypt.hash(newPassword,10)
+            // User.password= bcrypt.hash(newPassword,10);
+            console.log(newPassword1)
             await User.updateOne({password:newPassword})
+            
             return res.send(user);
         }catch (err) {
             console.log(err.message);
