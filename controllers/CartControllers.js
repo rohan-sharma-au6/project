@@ -60,12 +60,12 @@ module.exports={
     },
     async removeFromCart(req, res) {
         try {
-            const _id = req.params.productId
+            const productId = req.params.productId
             
             const userId = req.user.id
-            
-            await Cart.deleteOne({  userId,_id
+            await Cart.deleteOne({ productId,userId
             });
+            
             res.send("removed from cart successfully");
         } catch (err) {
             console.log(err);

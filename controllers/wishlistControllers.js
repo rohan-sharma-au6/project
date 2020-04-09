@@ -41,10 +41,10 @@ module.exports = {
 
     async removeFromWishlist(req, res) {
         try {
-            const _id = req.params.productId
+            const productId = req.params.productId
             const userId = req.user.id
             await Wishlist.deleteOne({ 
-                userId,_id});
+                userId,productId});
             res.send("removed from Wishist successfully");
         } catch (err) {
             console.log(err);

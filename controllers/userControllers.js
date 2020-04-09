@@ -90,7 +90,7 @@ module.exports={
           );
           if (user.isConfirmed) {
             user.generateToken();
-            const  accessToken =user.accessToken;
+            const  accessToken ="jwt "+user.accessToken;
             res.cookie("token", user.accessToken, {
               expires: new Date(Date.now() + 1000 * 60 * 60 * 12),
               httpOnly: true,

@@ -11,7 +11,7 @@ router.post("/addtocart/:_id", passport.authenticate("jwt", {
     session: false
 }), cartRoutes.addToCart)
 
-router.post("/removeFromCart/:_id", passport.authenticate("jwt", {
+router.post("/removeFromCart/:productId", passport.authenticate("jwt", {
     session: false
 }),cartRoutes.removeFromCart)
 

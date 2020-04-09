@@ -58,7 +58,7 @@ test('get status code 200 /reviews/:id', function (done) {
     request.get('/reviews/5e798e7dd74e6443846d0ad8')
       .expect(200)
       .set({
-        Authorization: `jwt ${auth.accessToken}`
+        Authorization: `${auth.accessToken}`
       })
       .end(function (err, res) {
         if (err) return done(err);
@@ -71,7 +71,7 @@ test('get status code 200 /carts', function (done) {
     request.get('/carts')
       .expect(200)
       .set({
-        Authorization: `JWT ${auth.accessToken}`
+        Authorization: `${auth.accessToken}`
       })
       .end(function (err, res) {
         if (err) return done(err);
@@ -84,7 +84,7 @@ test('get status code 200 /addtocart/:_id', function (done) {
     request.post('/addtocart/5e798e7dd74e6443846d0ad8')
       .expect(200)
       .set({
-        Authorization: `JWT ${auth.accessToken}`
+        Authorization: `${auth.accessToken}`
       })
       .end(function (err, res) {
         if (err) return done(err);
@@ -97,7 +97,7 @@ test('get status code 200 /removeFromCart/:_id', function (done) {
     request.post('/removeFromCart/5e798e7dd74e6443846d0ad8')
       .expect(200)
       .set({
-        Authorization:`JWT ${auth.accessToken}`
+        Authorization:`${auth.accessToken}`
       })
       .end(function (err, res) {
         if (err) return done(err);
@@ -110,7 +110,7 @@ test('get status code 200 /address', function (done) {
     request.get('/address')
       .expect(200)
       .set({
-        Authorization: `JWT ${auth.accessToken}`
+        Authorization: `${auth.accessToken}`
       })
       .end(function (err, res) {
         if (err) return done(err);
@@ -123,7 +123,7 @@ test('get status code 200 /wishlists', function (done) {
     request.get('/wishlists')
       .expect(200)
       .set({
-        Authorization: `JWT ${auth.accessToken}`
+        Authorization: `${auth.accessToken}`
       })
       .end(function (err, res) {
         if (err) return done(err);
@@ -135,7 +135,7 @@ test('get status code 200 /wishlists/:id', function (done) {
     request.post('/addToWishlist/50')
       .expect(200)
       .set({
-        Authorization: `JWT ${auth.accessToken}`
+        Authorization: `${auth.accessToken}`
       })
       .end(function (err, res) {
         if (err) return done(err);
@@ -147,7 +147,7 @@ test('get status code 200 /removeFromWishlist/:id', function (done) {
     request.post('/removeFromWishlist/1')
       .expect(200)
       .set({
-        Authorization: `JWT ${auth.accessToken}`
+        Authorization: `${auth.accessToken}`
       })
       .end(function (err, res) {
         if (err) return done(err);

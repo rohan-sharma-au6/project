@@ -18,8 +18,7 @@ var productSchema = new Schema({
         trim: true
     },
     image: {
-        type: [],
-        required:true
+        type: []
         
     },
     description:{
