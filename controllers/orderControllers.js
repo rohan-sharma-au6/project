@@ -4,7 +4,11 @@ const Cart= require('../models/Cart')
 const { v4: uuid } = require("uuid");
 const instance= require('../razorPay');
 const createSignature = require("../createSignature");
-const sendMail = require("../generateEmail");
+const {
+  sendMailToUser,
+  sendOrderStatus
+} = require("../generateEmail");
+const SucessfullOrder = require("../models/SuccessfullOrder")
 module.exports={
     
     async checkOut(req,res){
@@ -60,7 +64,8 @@ module.exports={
           razorpay_payment_id,
           razorpay_signature,
           order_id,
-          email
+          email,
+          userId
         } = req.body;
         try {
           const amountInRupees = amount / 100;
@@ -69,7 +74,7 @@ module.exports={
             razorpay_payment_id
           );
           if (createdSignature !== razorpay_signature) {
-            await sendMail(
+            await sendMailToUser(
               email,
               "fail",
               amountInRupees,
@@ -94,13 +99,13 @@ module.exports={
               message: "Invalid payment request"
             });
           }
-          await transaction.update({
+          await transaction.updateOne({
             razorpay_payment_id: razorpay_payment_id,
             razorpay_signature: razorpay_signature,
             isPending: false,
             razorpay_order_id: razorpay_order_id
           });
-          await sendMail(
+          await sendMailToUser(
             email,
             "success",
             amountInRupees,
@@ -108,9 +113,24 @@ module.exports={
             razorpay_order_id
           );
           console.log("Mail send Successfully");
+          
+          const cartItems = await Cart.find({userId
+           
+          });
+          const success = await SucessfullOrder.create({
+            order_value: amount / 100,
+            order_id,
+            userId,
+            cartItems,
+            userMail: email
+          });
+          console.log(success)
+          await Cart.remove({userId
+            
+          });
           res.status(201).send({
             transaction,
-            captureResponse
+            captureResponse,success
           });
         } catch (err) {
           console.log(err);
@@ -118,7 +138,38 @@ module.exports={
             return res.status(400).send(`Validation Error: ${err.message}`);
           res.send(err);
         }
-      }
+},
+async status(req, res) {
+  const {
+    status
+  } = req.body;
+  const orderId = req.params.id
+  try {
+    const order = await SucessfullOrder.findOne({
+      orderId
+    });
+    const email = order.dataValues.userMail;
+    if (status === "accepted") {
+      await order.updateOne({
+        order_status: "accepted",
+      });
+      await sendOrderStatus(email, "accepted")
+      res.status(200).json(order)
+    } else if (status === "rejected") {
+      await order.updateOne({
+        order_status: "rejected",
+      });
+      await sendOrderStatus(email, "rejected")
+      res.status(200).json(order)
+    }
+  } catch (err) {
+    console.log(err);
+    if (err.name === "ValidationError")
+      return res.status(400).send(`Validation Error: ${err.message}`);
+    res.send(err);
+  }
+}
+      
 
 
 }

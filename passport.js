@@ -16,6 +16,13 @@ const jwtOptions = {
   ]),
   secretOrKey: process.env.JWT_SECRET_KEY
 };
+const jwtOptions2 = {
+  jwtFromRequest: ExtractJwt.fromExtractors([
+    ExtractJwt.fromAuthHeaderWithScheme("AJWT"),
+    (req) => req.cookies.adminToken
+  ]),
+  secretOrKey: process.env.JWT_SECRET_KEY,
+};
 
 passport.use(
   new JWTStrategy(jwtOptions, async ({ id }, done) => {
@@ -33,9 +40,9 @@ passport.use(
 
 passport.use(
   "admin-rule",
-  new JWTStrategy(jwtOptions, async ({ id }, done) => {
+  new JWTStrategy(jwtOptions2, async ({ _id }, done) => {
     try {
-      const admin = await Admin.findOne({id
+      const admin = await Admin.find({_id
       });
 
       if (!admin)

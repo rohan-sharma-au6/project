@@ -11,7 +11,9 @@ router.post("/forgot",userRoutes.forgotPassword);
 router.post("/reset",userRoutes.resetPassword);
 router.post('/deactivate',userRoutes.deactivateAccount)
 
-
+router.post("/logout", passport.authenticate("jwt", {
+  session: false
+}),userRoutes.logoutUser);
 router.get(
     "/profile",
     passport.authenticate("jwt", {

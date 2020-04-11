@@ -15,8 +15,7 @@ router.get(
     }),
    adminRoutes.showAdminData);
 router.get(
-    "/adminPortal",
-    passport.authenticate('admin-rule', {
+    "/adminPortal",passport.authenticate('admin-rule', {
         session: false
     }),
    adminRoutes.adminPortal);

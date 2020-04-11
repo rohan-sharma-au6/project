@@ -1,7 +1,7 @@
 const Admin=require('../models/Admin');
 const PFAQ= require("../models/ProductFAQ")
 const Product = require("../models/Product")
-
+const SuccessfullOrder = require("../models/SuccessfullOrder")
 module.exports={
 
     async registerAdmin(req, res) {
@@ -85,6 +85,7 @@ module.exports={
         }
     },
     async showAdminData(req, res) {
+
         res.json({
             admin: req.user
         });
@@ -95,11 +96,12 @@ module.exports={
 
                     "answer": "Not Answered Yet"
             });
-            const products = await Product.find({timesSold
-            }).sort({timesSold:1})
+            const products = await Product.find().sort({timesSold:-1})
+            const successfullOrders = await SuccessfullOrder.find({order_status: "pending"}).sort({_id:-1});
             res.status(200).send({
                 pfaq,
-                products
+                products,
+                successfullOrders
             })
         } catch (err) {
             console.log(err);

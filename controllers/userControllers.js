@@ -128,6 +128,28 @@ module.exports={
           });
         }
       },
+      async logoutUser(req, res) {
+        
+        const id = req.user.id;
+        try {
+          const user = await User.findOne({
+            id
+          });
+          
+          user.accessToken= "";
+          await user.save();
+          res.clearCookie('token');
+          res.send({
+            massage: "done"
+          });
+        } catch (err) {
+          console.log(err.message);
+          res.send({
+            error: "invalid Credential",
+            massage: "fail"
+          });
+        }
+      },
       
       async forgotPassword(req, res) {
         const { phoneNumber } = req.body;
@@ -223,16 +245,14 @@ module.exports={
             if(!user){
                 return res.status(401).send("Incorrect credentials");
             }
-             //newPassword1= bcrypt.hash(newPassword,10)
-            // User.password= bcrypt.hash(newPassword,10);
-            console.log(newPassword1)
-            await User.updateOne({password:newPassword})
+              newPassword1= await bcrypt.hash(newPassword,10)
+            await user.updateOne({password:newPassword1})
             
             return res.send(user);
         }catch (err) {
             console.log(err.message);
             res.send("invalid credential");
-          }
+          }rs
       },
       async fetchUserFromGoogle(req, res) {
         const user = req.user;
@@ -268,11 +288,6 @@ module.exports={
       }
 
 
-  //  fetchUserFromGoogle(req, res){
-  //   //const user = req.user;
-  //   console.log(req.user)
-  //   res.send('hjkghjg')
-  // }
   
 };
     

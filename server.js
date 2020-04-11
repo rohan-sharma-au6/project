@@ -6,5 +6,5 @@ app.get("/",function(req,res){
     res.send("hello")
 })
 app.listen(port, function (req,res) {
-    console.log("Server started on",port);
+    console.log("Server started on PORT",port);
 });

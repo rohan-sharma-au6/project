@@ -9,4 +9,12 @@ router.post("/orders", passport.authenticate("jwt", {
 }), orderRoutes.checkOut);
 
 router.post("/verify",orderRoutes.verify)
+router.post(
+    "/orderStatus/:id",
+    passport.authenticate('admin-rule', {
+      session: false
+    }),
+    orderRoutes.status
+  );
+
 module.exports=router;

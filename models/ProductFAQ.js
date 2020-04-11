@@ -12,7 +12,8 @@ const PFAQSchema = new Schema({
         type:String
     },
     answer:{
-        type:String
+        type:String,
+        default:"Not Answered Yet"
     }
 },{timestamps:true}
 );
